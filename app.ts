@@ -1,17 +1,19 @@
-const skills: string[] = ['Dev', 'Design', 'Testing1', 'Testing2'];
-// string[] - массив строк
+const skill: [number, string] = [1, 'Dev'];
 
-//для неоднордных массивов есть два решения
-// 1. any[] ---- ЭТО ПЛОХОЕ РЕШЕНИЕ, тк не смогли типизировать!
-const skills2: any[] = ['Dev', 'Design'];
+const id = skill[0];
+const skillName = skill[1];
+// const skillLevel = skill[2]; -- не можем обраться
 
-for (const skill of skills) {
-    console.log(skill.toLowerCase());
-}
+//после пуша также не можем обратьться к третьему элеенту, так как тип tupple
+skill.push('rejgt');
+console.log(skill);
+// const q = skill[3]; 
+skill.pop();
 
-const res = skills
-.filter((s: string) => s !== 'Design')
-.map(s => s + '! ')
-.reduce((a, b) => a + b);
+const [skillId, skillname] = skill;
 
-console.log(res);
+const arr: [number, string, ...boolean[] ] = [1, 'say Yeeeeah', true, false, true];
+const arr2: [number, string, ...number[] ] = [1, 'say Yeeeeah', 3];
+
+
+
