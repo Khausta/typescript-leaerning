@@ -1,7 +1,16 @@
 "use strict";
-let renevue = 1000;
-let bonus = 500;
-let res = renevue + bonus;
-let c = 'string';
-let d = true;
-console.log(res);
+function getFullName(firstname, surname) {
+    return `${firstname} ${surname}`;
+}
+const getFullNameArror = (firstname, surname) => {
+    return `${firstname} ${surname}`;
+};
+// function getFullName(firstname, surname) {
+//     //такая явная проверка в ts может быть применена только в 2-х случаях:
+//     // 1. Когда данные приходят из внешней системы
+//     if (typeof firstname !== 'string') {
+//         throw new Error('!!!');
+//     }
+//     return `${firstname} ${surname}`;
+// }
+console.log(getFullName("Anna", "Khaustova"));
