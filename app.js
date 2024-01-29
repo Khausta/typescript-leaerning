@@ -1,4 +1,7 @@
 "use strict";
-const a = 1;
-const b = a + 2;
-const c = b + 2;
+let renevue = 1000;
+let bonus = 500;
+let res = renevue + bonus;
+let c = 'string';
+let d = true;
+console.log(res);
