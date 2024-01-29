@@ -1,17 +1,76 @@
-const skill: readonly [number, string] = [1, 'Dev'];
+// enum позволяет сделать четский справочник кодов ответа
+// каких-то величин (н: направдений движения)
+// для описания параметров в базе которые имеют ограниченное число значений (роли пользователей)
 
-//проблема в том что мы можем изменить значение вот так
-// skill[0] = 2; //Cannot assign to '0' because it is a read-only property.ts(2540)
-//чтобы запретить измения, добавляем ключевое слово readonly, которое 
-//указывавет что это картэж и он не можифицируется
-//ЭТО УДОБНО, если приходит конфигурация и вы не хотите ее модифицировать
 
-//запись Generic
-const skills: Array<string> = ['DevOps', 'Dev'];
-//для readonly есть свой generic тип
-const skills2: ReadonlyArray<string> = ['DevOps', 'Dev'];
 
-const a = 5;
-// a = 6;
+enum StatusCode {
+    SUCCESS = 1,
+    IN_PROCESS,
+    FAILED
+}
 
+const res = {
+    message: "Платеж успешен",
+    statusCode: StatusCode.SUCCESS
+};
+
+// 1 - успех
+// 2 - в процессе
+// 3 - отклонен 
+// здесь проблема в том, что нужно ограничить statusCode до 3х
+//ПОЭТОМУ ИСПОЛЬЗУЙ ENUM
+
+if (res.statusCode === StatusCode.SUCCESS) {
+
+}
+
+//пример гидрогенного енама
+enum StatusCodeHydro {
+    SUCCESS = 1,
+    IN_PROCESS = 3,
+    FAILED = 'F'
+}
+
+function action(status: StatusCodeHydro) {
+
+}
+
+action(StatusCodeHydro.SUCCESS);
+// action('F');//error
+
+
+enum Roles {
+    ADMIN,
+    USER,
+}
+
+function calc() {
+    return 3;
+}
+
+enum EnumExamle {
+    ADMIN = 1,
+    SUPER_USER = ADMIN * 2,
+    USER = calc()
+}
+
+console.log(EnumExamle.USER);
+
+
+function test(x: {ADMIN: number}) {
+
+}
+test(EnumExamle);
+
+//чтобы после компилирования (после runtime) enum не превращались в функции
+// достаточно присвоить const
+
+const enum EnumExamle2 {
+    ADMIN = 1,
+    SUPER_USER = ADMIN * 2,
+    // USER = calc() // не может примениться
+}
+
+const res2 = EnumExamle2.ADMIN;
 
