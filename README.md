@@ -1,1 +1,1 @@
-This is my TypeScript workbook wish my comments and explaines.
+This is my TypeScript workbook with my comments and explaines.
