@@ -1,6 +1,22 @@
 "use strict";
-//Literal Types
-function fetchWithAuth(url, method) {
-    // return fetch(url, method); //ts(2559) - why?
-    return 1;
-}
+// Interfaces
+let user = {
+    name: 'sada',
+    age: 22,
+    skills: ['1', '2'],
+    roleId: 1,
+    log(id) {
+        return this.name;
+    }
+};
+let user2 = {
+    name: 'AS',
+    age: 22,
+    skills: ['1'],
+    role: 'dev',
+    place: 'MosDistrict',
+    createdAt: new Date(),
+    log(id) {
+        return this.name;
+    }
+};
