@@ -8,12 +8,12 @@ const ONE_TRILLION:number = 1000000000000;       //     1.000.000.000.000 (12)
 const ONE_QUADRILLION:number = 1000000000000000; // 1.000.000.000.000.000 (15)
 const MAX:number = 9007199254740992;             // 9.007.199.254.740.992 (15)
 
-const LESS_THAN_TWENTY:string[] = [
+const LESS_THAN_TWENTY: readonly string[] = [
     'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
     'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
 ];
 
-const TENTHS_LESS_THAN_HUNDRED:string[] = [
+const TENTHS_LESS_THAN_HUNDRED: readonly string[] = [
     'zero', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
 ];
 
