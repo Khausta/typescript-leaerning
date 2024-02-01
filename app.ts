@@ -1,76 +1,36 @@
-// Interfaces
+// Interfaces VS Types
 
-
+// 1 отличие
 interface User {
     name: string;
-    age: number;
-    skills: string[],
-    //если ожидается функция
-    log: (id: number) => string
 }
 
+interface User {
+    id: number
+} // перезапись
 
-//first var
-interface UserWithRole extends User {
-    roleId: number
+// это может вводить в заблуждении при codereview!
+// удобно, если использовать стороннюю библиотеку и 
+//нет возможности заэкстендить како-то интерфейс
+const user: User = {
+    name: 'kljfd',
+    id: 2
 }
 
-
-//second var
-interface Role {
-    role: string
+//будет ошибка. Types не перезаписываются
+type User1 = {
+    name: string
 }
 
-interface UserWithRole2 extends User, Role {
-    place: string,
-    createdAt: Date
+// type User1 = {
+//     id: number
+// }               //Duplicate identifier 'User1'.ts(2300)
+
+// в type можем использовать union
+type ID = string | number; 
+
+interface IDI {
+    ID: string | number
 }
-
-
-let user: UserWithRole = {
-    name: 'sada',
-    age: 22,
-    skills: ['1', '2'],
-    roleId: 1,
-    
-    log(id) {
-        return this.name
-    }
-}
-
-let user2: UserWithRole2 = {
-    name: 'AS',
-    age: 22,
-    skills: ['1'],
-    role: 'dev',
-    place: 'MosDistrict',
-    createdAt: new Date(),
-    log(id) {
-        return this.name
-    }
-}
-
-
-//можем сделать type c функцией
-type User2 = {
-    name: string;
-    age: number;
-    skills: string[],
-
-    log: (id: number) => string
-}
-
-// ИНДЕКСНЫЕ СВОЙСТВА (может быть использована в interface и type)
-// например для словарей
-interface UserDic {
-    //ожидается неограниченное количество ключей, но значение должно быть типом User
-    [index: number]: User
-}
-
-type UserDic2 = {
-    //ожидается неограниченное количество ключей, но значение должно быть типом User
-    [index: number]: User
-}
-
 
 
