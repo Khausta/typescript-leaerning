@@ -1,49 +1,34 @@
 "use strict";
-//Narrowing
-function logId(id) {
-    if (typeof id === 'string') {
-        console.log(id.toLowerCase());
-    }
-    else if (typeof id === 'boolean') {
-        console.log(id);
-    }
-    else
-        (console.log(id));
+//Literal Types
+// example with fetch request
+// function fetchWithAuth(url: string, method: string) { //так в method можем что угодно передать, даже не post и get, а что угодно
+//     //пробудем enam
+// }
+//пример с enum
+var FetchMethods;
+(function (FetchMethods) {
+    FetchMethods["GET"] = "GET";
+    FetchMethods["POST"] = "POST";
+})(FetchMethods || (FetchMethods = {}));
+function fetchWithAuth(url, method) {
+    // return fetch(url, method); //ts(2559) - why?
 }
-logId(1);
-logId('Id');
-logId(true);
-function logError(err) {
-    if (Array.isArray(err)) {
-        console.log(err);
-    }
-    else {
-        console.log(err);
-    }
+// fetchWithAuth('http://dsfgjfd.ro', FetchMethods.POST).catch(err => console.error(err.message));
+//ПРИМЕНИМ LITERAL TYPES
+// function fetchWithAuthL(url: string, method: "get" | "post") {
+//     if (method === "get") {
+//         // fetch(url, method);// ошибка тоже
+//     } 
+// }
+function fetchWithAuth2(url, method) {
+    // return fetch(url, method); //ts(2559) - why? 
 }
-//Narrowing down a type of obj
-function logObj(obj) {
-    if ('a' in obj) {
-        console.log(obj.a);
-    }
-    else {
-        console.log(obj.b);
-    }
+fetchWithAuth2("sdg", "get");
+function fetchWithAuth3(url, method) {
+    // return fetch(url, method); //ts(2559) - why? 
+    // return 2; //не проходит
+    return 1;
 }
-function logMultipleIds(a, b) {
-    //сравниваем по общему типу
-    if (a === b) {
-        console.log(a, b);
-    }
-    else if (typeof a === 'number') {
-        console.log(a / 2);
-    }
-    else {
-        console.log(b); //string or boolean! нужно точно проверить чтобы применить методы string
-    }
-}
-const a = 1; //a тип 1(удиница)
-let c = 2; //c тип number
-let b = 3; //так можно указать тип 3 и исменить не сможем
-b = 3; //можно
-// b = 4; //выдаст ошабку то тип 4 не является типом 3
+const a = 1;
+fetchWithAuth3('wer', 2);
+fetchWithAuth3('wer', a); //каст к типу
