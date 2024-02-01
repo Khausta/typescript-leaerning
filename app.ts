@@ -1,76 +1,50 @@
-// enum позволяет сделать четский справочник кодов ответа
-// каких-то величин (н: направдений движения)
-// для описания параметров в базе которые имеют ограниченное число значений (роли пользователей)
-
-
-
-enum StatusCode {
-    SUCCESS = 1,
-    IN_PROCESS,
-    FAILED
+//Narrowing
+function logId(id: string | number | boolean) {
+    if (typeof id === 'string') {
+        console.log(id.toLowerCase());
+    } else if (typeof id === 'boolean') {
+        console.log(id)
+    } else (
+        console.log(id)
+    )
 }
 
-const res = {
-    message: "Платеж успешен",
-    statusCode: StatusCode.SUCCESS
-};
+logId(1);
+logId('Id');
+logId(true);
 
-// 1 - успех
-// 2 - в процессе
-// 3 - отклонен 
-// здесь проблема в том, что нужно ограничить statusCode до 3х
-//ПОЭТОМУ ИСПОЛЬЗУЙ ENUM
 
-if (res.statusCode === StatusCode.SUCCESS) {
-
+function logError(err: string | string[]) {
+    if(Array.isArray(err)) {
+        console.log(err);
+    } else {
+        console.log(err);
+    }
 }
 
-//пример гидрогенного енама
-enum StatusCodeHydro {
-    SUCCESS = 1,
-    IN_PROCESS = 3,
-    FAILED = 'F'
+//Narrowing down a type of obj
+function logObj(obj: {a: number} | {b: number}) {
+    if('a' in obj) {
+        console.log(obj.a);
+    } else {
+        console.log(obj.b);
+    }
 }
 
-function action(status: StatusCodeHydro) {
-
+function logMultipleIds(a: string | number, b: string | boolean) {
+    //сравниваем по общему типу
+    if (a === b) {
+        console.log(a, b);
+    } else if(typeof a === 'number') {
+        console.log(a / 2);
+    } else {
+        console.log(b);//string or boolean! нужно точно проверить чтобы применить методы string
+    }
 }
 
-action(StatusCodeHydro.SUCCESS);
-// action('F');//error
-
-
-enum Roles {
-    ADMIN,
-    USER,
-}
-
-function calc() {
-    return 3;
-}
-
-enum EnumExamle {
-    ADMIN = 1,
-    SUPER_USER = ADMIN * 2,
-    USER = calc()
-}
-
-console.log(EnumExamle.USER);
-
-
-function test(x: {ADMIN: number}) {
-
-}
-test(EnumExamle);
-
-//чтобы после компилирования (после runtime) enum не превращались в функции
-// достаточно присвоить const
-
-const enum EnumExamle2 {
-    ADMIN = 1,
-    SUPER_USER = ADMIN * 2,
-    // USER = calc() // не может примениться
-}
-
-const res2 = EnumExamle2.ADMIN;
+const a = 1; //a тип 1(удиница)
+let c = 2; //c тип number
+let b:3 = 3; //так можно указать тип 3 и исменить не сможем
+b = 3; //можно
+// b = 4; //выдаст ошабку то тип 4 не является типом 3
 

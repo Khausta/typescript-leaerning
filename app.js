@@ -1,51 +1,49 @@
 "use strict";
-// enum позволяет сделать четский справочник кодов ответа
-// каких-то величин (н: направдений движения)
-// для описания параметров в базе которые имеют ограниченное число значений (роли пользователей)
-var StatusCode;
-(function (StatusCode) {
-    StatusCode[StatusCode["SUCCESS"] = 1] = "SUCCESS";
-    StatusCode[StatusCode["IN_PROCESS"] = 2] = "IN_PROCESS";
-    StatusCode[StatusCode["FAILED"] = 3] = "FAILED";
-})(StatusCode || (StatusCode = {}));
-const res = {
-    message: "Платеж успешен",
-    statusCode: StatusCode.SUCCESS
-};
-// 1 - успех
-// 2 - в процессе
-// 3 - отклонен 
-// здесь проблема в том, что нужно ограничить statusCode до 3х
-//ПОЭТОМУ ИСПОЛЬЗУЙ ENUM
-if (res.statusCode === StatusCode.SUCCESS) {
+//Narrowing
+function logId(id) {
+    if (typeof id === 'string') {
+        console.log(id.toLowerCase());
+    }
+    else if (typeof id === 'boolean') {
+        console.log(id);
+    }
+    else
+        (console.log(id));
 }
-//пример гидрогенного енама
-var StatusCodeHydro;
-(function (StatusCodeHydro) {
-    StatusCodeHydro[StatusCodeHydro["SUCCESS"] = 1] = "SUCCESS";
-    StatusCodeHydro[StatusCodeHydro["IN_PROCESS"] = 3] = "IN_PROCESS";
-    StatusCodeHydro["FAILED"] = "F";
-})(StatusCodeHydro || (StatusCodeHydro = {}));
-function action(status) {
+logId(1);
+logId('Id');
+logId(true);
+function logError(err) {
+    if (Array.isArray(err)) {
+        console.log(err);
+    }
+    else {
+        console.log(err);
+    }
 }
-action(StatusCodeHydro.SUCCESS);
-// action('F');//error
-var Roles;
-(function (Roles) {
-    Roles[Roles["ADMIN"] = 0] = "ADMIN";
-    Roles[Roles["USER"] = 1] = "USER";
-})(Roles || (Roles = {}));
-function calc() {
-    return 3;
+//Narrowing down a type of obj
+function logObj(obj) {
+    if ('a' in obj) {
+        console.log(obj.a);
+    }
+    else {
+        console.log(obj.b);
+    }
 }
-var EnumExamle;
-(function (EnumExamle) {
-    EnumExamle[EnumExamle["ADMIN"] = 1] = "ADMIN";
-    EnumExamle[EnumExamle["SUPER_USER"] = 2] = "SUPER_USER";
-    EnumExamle[EnumExamle["USER"] = calc()] = "USER";
-})(EnumExamle || (EnumExamle = {}));
-console.log(EnumExamle.USER);
-function test(x) {
+function logMultipleIds(a, b) {
+    //сравниваем по общему типу
+    if (a === b) {
+        console.log(a, b);
+    }
+    else if (typeof a === 'number') {
+        console.log(a / 2);
+    }
+    else {
+        console.log(b); //string or boolean! нужно точно проверить чтобы применить методы string
+    }
 }
-test(EnumExamle);
-const res2 = 1 /* EnumExamle2.ADMIN */;
+const a = 1; //a тип 1(удиница)
+let c = 2; //c тип number
+let b = 3; //так можно указать тип 3 и исменить не сможем
+b = 3; //можно
+// b = 4; //выдаст ошабку то тип 4 не является типом 3
