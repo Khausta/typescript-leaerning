@@ -1,34 +1,56 @@
-// Voide
+// Unknown
 
-function logId(id: string | number) {
-    console.log(id);
-}
+let input: unknown;
 
-const a = logId(1); //a:void
+input = 3;
+input = 'ds';
+input = ['sd', 'eww'];
 
-function multiply(f: number, m?: number): number | void {
-    if (!m) {
-        return f*f;
+// any принимает unknown, остлальные типы нет
+// let b: string = input; //Type 'unknown' is not assignable to type 'string'
+let b: any = input;
+
+let c: unknown;
+let d: any;
+d = c;
+c = d;
+
+
+function run(i: unknown) {
+    if (typeof i === 'number') {
+        i++
+    } else {
+        i;
     }
 }
 
-// Void case
-type VoidFunc = () => void;
+run(input);
 
-const f1: VoidFunc = () => {
-    //ничего не возвращаем
+async function getData() {
+    try {
+        await fetch(''); //в ноде нет fetch, нужен дополнительный полифил
+    } catch (error) {
+        // console.log(error.message); --- не сработакт, так как type unknown
+        //НУЖНА проверка
+        if (error instanceof Error) {
+            console.log(error.message);
+        }
+    } 
 }
 
-const f2: VoidFunc = () => {
-    return true //валидно, тк при void любой возврат функции игнорируется
+
+async function getData2() {
+    try {
+        await fetch(''); //в ноде нет fetch, нужен дополнительный полифил
+    } catch (error) {
+        //можем проверить через каст as
+        //но если придет error в виде строки, а не класса Error то код упадет
+        //старайся не использовать
+        const e = error as Error;
+        console.log(e.message);
+    } 
 }
 
-const b = f2();//void type
+type U1 = unknown | null; //U1 тип unknown потому что в union берется самый широкий тип
 
-const skills = ['Dev', 'Devops'];
-const user = {
-    s: ['s']
-}
-
-skills.forEach((skill) => user.s.push(skill));
-console.log(user.s);
+type I1 = unknown & string; //I1 тип string тк в Intersection берется самый узкий тип
