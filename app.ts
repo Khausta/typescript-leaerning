@@ -1,87 +1,34 @@
-// Optional
+// Voide
 
-//если какое-то свойство мы можем не передать используй "?" после ключа 
-interface User {
-    name: string,
-    password?: string
+function logId(id: string | number) {
+    console.log(id);
 }
 
-const user1: User = {
-    name: 'sdfd',
-    password: 'dfgkj@'
-}
-//тоже валидно
-const user2: User = {
-    name: 'sdfd'
-}
+const a = logId(1); //a:void
 
-type Role = {
-    role: string,
-    roleId?: number
-}
-
-const user3: Role = {
-    role: 'Admin'
-}
-
-// что с Undefined
-interface Product {
-    origin: string,
-    discount: number | undefined  //нужно будет обязательно это свойто указывать в объектах
-}
-
-const lenovo2134: Product = {
-    origin: 'Japan',
-    //нужно явно указать undefined если нет discount
-    discount: 25
-}
-
-
-//здесь  second?: number ЭКВИВАЛЕНТНО second: number | undefined
-function multiply(first: number, second?: number): number {
-    if(!second) {
-        return first * first;
+function multiply(f: number, m?: number): number | void {
+    if (!m) {
+        return f*f;
     }
-    return first * second;
 }
 
-//можем указать дефолтное значение, если нам не передали значение second
-function multiply2(first: number, second: number = 5): number {
-    return first * second;
+// Void case
+type VoidFunc = () => void;
+
+const f1: VoidFunc = () => {
+    //ничего не возвращаем
 }
 
-multiply(5);
-multiply(2, 2);
-
-
-
-
-interface UserPro {
-    name: string;
-    password?: {
-        type: 'primary' | 'secondary'
-    };
+const f2: VoidFunc = () => {
+    return true //валидно, тк при void любой возврат функции игнорируется
 }
 
-function testPass(user: UserPro) {
-    const t = user.password?.type;
-    // эквивалент
-    const t2 = user.password ? user.password.type : undefined;
+const b = f2();//void type
+
+const skills = ['Dev', 'Devops'];
+const user = {
+    s: ['s']
 }
 
-// ?? - проверка значения перед ?? на null or undefined
-function test(param?: string) {
-    const t = param ?? multiply(2);
-}
-
-// ! - кога уверены что точно будет свойсвто
-interface User0 {
-    name: string;
-    password?: {
-        type: 'primary' | 'secondary'
-    };
-}
-
-function testUser(user: User0) {
-    const t = user.password!.type;
-}
+skills.forEach((skill) => user.s.push(skill));
+console.log(user.s);
