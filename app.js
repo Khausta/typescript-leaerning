@@ -1,59 +1,54 @@
 "use strict";
-// Unknown
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-let input;
-input = 3;
-input = 'ds';
-input = ['sd', 'eww'];
-// any принимает unknown, остлальные типы нет
-// let b: string = input; //Type 'unknown' is not assignable to type 'string'
-let b = input;
-let c;
-let d;
-d = c;
-c = d;
-function run(i) {
-    if (typeof i === 'number') {
-        i++;
-    }
-    else {
-        i;
+// Never
+//то есть никаогда ничего не возвращает
+// 1 case
+function generateError(message) {
+    throw new Error(message);
+}
+//2 case 
+function dumpError() {
+    while (true) { }
+}
+//3 case - с рекурсией
+function rec() {
+    return rec();
+}
+// const a: never; //- не валидно
+// const a: never = 2; //-не валидно
+// const a: never = null; //-не валидно
+const a = undefined; //валидно
+function processAction(action) {
+    switch (action) {
+        case 'refund':
+            //...do something
+            break;
+        case 'checkout':
+            //...do something
+            break;
+        case 'rejected':
+            //...do something
+            console.log('rejected');
+            break;
+        default:
+            //чтобы обработать ошибку правильно
+            // на этапе Compiler Time обрабатываем
+            const _ = action; // _ означает переменную которую никогда не будем испольховать
+            throw new Error('Нет такого action');
     }
 }
-run(input);
-function getData() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield fetch(''); //в ноде нет fetch, нужен дополнительный полифил
-        }
-        catch (error) {
-            // console.log(error.message); --- не сработакт, так как type unknown
-            //НУЖНА проверка
-            if (error instanceof Error) {
-                console.log(error.message);
-            }
-        }
-    });
-}
-function getData2() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield fetch(''); //в ноде нет fetch, нужен дополнительный полифил
-        }
-        catch (error) {
-            //можем проверить через каст as
-            //но если придет error в виде строки, а не класса Error то код упадет
-            //старайся не использовать
-            const e = error;
-            console.log(e.message);
-        }
-    });
+processAction('rejected');
+// processAction('gfd'); --- не скомпилируется файл
+// case 5 - Исчерпывающая проверка - Exhaustive check
+function isString(x) {
+    if (typeof x === 'string') {
+        return true;
+        // } else {
+        //     return false
+        // } может юыть по другому
+    }
+    else if (typeof x === 'number') {
+        return false;
+    } // получается что остается третий вариант, который мы должны обработать
+    //например добавить функцию типа never
+    generateError('err oops');
 }

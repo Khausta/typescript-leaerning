@@ -1,56 +1,60 @@
-// Unknown
+// Never
+//то есть никаогда ничего не возвращает
+// 1 case
+function generateError(message: string): never {
+    throw new Error(message);
+}
+//2 case 
+function dumpError(): never {
+    while (true) {}
+}
+//3 case - с рекурсией
+function rec(): never {
+    return rec();
+}
 
-let input: unknown;
+// const a: never; //- не валидно
+// const a: never = 2; //-не валидно
+// const a: never = null; //-не валидно
+const a: void = undefined; //валидно
 
-input = 3;
-input = 'ds';
-input = ['sd', 'eww'];
-
-// any принимает unknown, остлальные типы нет
-// let b: string = input; //Type 'unknown' is not assignable to type 'string'
-let b: any = input;
-
-let c: unknown;
-let d: any;
-d = c;
-c = d;
-
-
-function run(i: unknown) {
-    if (typeof i === 'number') {
-        i++
-    } else {
-        i;
+// 4 case
+type paymentAction = 'refund' | 'checkout' | 'rejected';
+function processAction(action: paymentAction) {
+    switch (action) {
+        case 'refund':
+            //...do something
+            break;
+        case 'checkout':
+            //...do something
+            break;
+        case 'rejected':
+            //...do something
+            console.log('rejected');
+            break;
+        default:
+            //чтобы обработать ошибку правильно
+            // на этапе Compiler Time обрабатываем
+            const _: never = action; // _ означает переменную которую никогда не будем испольховать
+            throw new Error('Нет такого action');
+  
     }
 }
 
-run(input);
+processAction('rejected');
+// processAction('gfd'); --- не скомпилируется файл
 
-async function getData() {
-    try {
-        await fetch(''); //в ноде нет fetch, нужен дополнительный полифил
-    } catch (error) {
-        // console.log(error.message); --- не сработакт, так как type unknown
-        //НУЖНА проверка
-        if (error instanceof Error) {
-            console.log(error.message);
-        }
-    } 
+// case 5 - Исчерпывающая проверка - Exhaustive check
+function isString(x: number | string): boolean {
+    if (typeof x === 'string') {
+        return true;
+    // } else {
+    //     return false
+    // } может юыть по другому
+    } else if (typeof x === 'number') {
+        return false;
+    } // получается что остается третий вариант, который мы должны обработать
+    //например добавить функцию типа never
+    generateError('err oops');
 }
 
-
-async function getData2() {
-    try {
-        await fetch(''); //в ноде нет fetch, нужен дополнительный полифил
-    } catch (error) {
-        //можем проверить через каст as
-        //но если придет error в виде строки, а не класса Error то код упадет
-        //старайся не использовать
-        const e = error as Error;
-        console.log(e.message);
-    } 
-}
-
-type U1 = unknown | null; //U1 тип unknown потому что в union берется самый широкий тип
-
-type I1 = unknown & string; //I1 тип string тк в Intersection берется самый узкий тип
