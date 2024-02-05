@@ -1,20 +1,25 @@
 "use strict";
-const n = null; //только null приримает
-const n1 = null;
-const n3 = null;
-const n4 = null;
-const n5 = null;
-function getUser() {
-    if (Math.random() > 0.5) {
-        return null;
-    }
-    else {
-        return {
-            name: 'Vasya'
-        };
-    }
-}
-const user = getUser();
-if (user) {
-    const userName = user.name;
+//ПРиведение типов
+let a = 5;
+let s = a.toString();
+let s1 = new String(a).valueOf();
+let booleanVar = new Boolean(a).valueOf();
+let b = '12';
+let n = Number(b);
+let c = 'sdf';
+let m = parseInt(b);
+const user = {
+    name: 'Vasya',
+    email: 'vasya@mail.ru',
+    login: 'vasya-vasya'
+};
+//так лучше не преобразовать тк обращаясь к admin мы получаем только свойства которые есть в Admin
+//то есть email не получим, но в js будет инфо - так делать плохо
+const admin = Object.assign(Object.assign({}, user), { role: 1 });
+// как правильо преобразовать
+function userToAdmin(user) {
+    return {
+        name: user.login,
+        role: 1
+    };
 }
