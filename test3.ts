@@ -45,6 +45,25 @@ interface IResponseFailed {
 // }
 
 
+type f = (res: IResponseSuccess | IResponseFailed) => number;
+
+type Res = IResponseSuccess | IResponseFailed;
+
+function isOk(res: Res): res is IResponseSuccess {
+    if (res.status === PaymentStatus.SUCCESS) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function getIdFromData(res: Res): number {
+    if (isOk(res)) {
+        return res.data.databaseId;
+    } else {
+        throw new Error(res.data.errorMessage);
+    }
+}
+
 
 
 
