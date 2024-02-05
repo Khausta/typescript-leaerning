@@ -1,15 +1,4 @@
-//ПРиведение типов
-
-let a: number = 5;
-let s: string = a.toString();
-let s1: string = new String(a).valueOf();
-let booleanVar: boolean = new Boolean(a).valueOf();
-
-let b: string = '12';
-let n: number = Number(b);
-let c = 'sdf';
-let m: number = parseInt(b);
-
+// Type Guard
 interface User {
     name: string;
     email: string;
@@ -22,26 +11,48 @@ const user: User = {
     login: 'vasya-vasya'
 } 
 
-//вместо <User> используй as User тк в react зарезервино в компоненте
-
 interface Admin {
     name: string;
     role: number
 }
 
-//так лучше не преобразовать тк обращаясь к admin мы получаем только свойства которые есть в Admin
-//то есть email не получим, но в js будет инфо - так делать плохо
-const admin: Admin = {
-    ...user,
-    role: 1
-}
 
-// как правильо преобразовать
-function userToAdmin(user: User): Admin {
-    return {
-        name: user.login, 
-        role: 1
+//обрати внимание на тип который выводится после проверок
+function getId(id: number | string) {
+    // if (typeof id === 'string') { //-- можем заменить type guard
+    if (isString(id)) {
+        console.log(id)
+    } else {
+        console.log(id);
     }
-}
+    
+ }
+
+
+ // type guard  - это f-я
+ function isString(x: string | number): x is string { //вернут true или false
+    return typeof x === 'string';
+ }
+
+ //type guard
+ function isAdmin(user: User | Admin): user is Admin {
+    return 'role' in user;
+ }
+
+ function sertRoleZero(user: User | Admin) {
+    if (isAdmin(user)) {
+        user.role = 0;
+    } else {
+        throw new Error('пользователь не является админом');
+    }
+ }
+
+ function isAdminAlternative(user: User | Admin): user is Admin {
+    return (user as Admin).role !== undefined;
+ }
+
+
+
+
 
 
