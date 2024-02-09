@@ -6,7 +6,7 @@ type UserHair =  {
 type Coordinates = {
   lat: number,
   lng: number 
-} | unknown
+} 
 
 type Address =  {
   address: string,
@@ -16,7 +16,7 @@ type Address =  {
   state: string
 }
 
-interface UserBank {
+type UserBank = {
   cardExpire: string,
   cardNumber: string,
   cardType: string,
@@ -30,9 +30,22 @@ type Cripto = {
   network: string
 }
 
-type gender = 'male' | 'female';
+enum Gender {
+  MALE = 'male',
+  FEMALE = 'female'
+}
 
-type bloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+enum BloodGroup {
+  O_POSITIVE = 'O+',
+  O_NEGATIVE = 'O-',
+  A_POSITIVE = 'A+',
+  A_NEGATIVE = 'A-',
+  B_POSITIVE = 'B+',
+  B_NEGATIVE = 'B-',
+  AB_POSITIVE = 'AB+',
+  AB_NEGATIVE = 'AB-'
+}
+
 
 interface User {
     id: number,
@@ -40,14 +53,14 @@ interface User {
     lastName: string,
     maidenName: string,
     age: number,
-    gender: gender,
+    gender: Gender,
     email: string,
     phone: string,
     username: string,
     password: string,
     birthDate: string,
     image: string,
-    bloodGroup: bloodGroup,
+    bloodGroup: BloodGroup,
     height: number,
     weight: number,
     eyeColor: string,
@@ -81,199 +94,14 @@ interface ResponseData {
 async function getData(url: string, {}): Promise<void> {
   try {
     const res: Response = await fetch(url);
-    if (!res.ok) {
-      throw new Error('Запрос выполнен безуспешно');
-    }
     const data: User = await res.json();
     console.log(data);
   } catch(error) {
     if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.log('Что-то пошло не так...');
+      console.error('Error: ' + error.message);
     }
   }
 }
 
-getData('https://dummyjson.co/users', {
- mode: 'no-cors'
-});
 
-//для проверки
-const isUser: User = {
-    id: 1,
-    firstName: 'Terry',
-    lastName: 'Medhurst',
-    maidenName: 'Smitham',
-    age: 50,
-    gender: 'male',
-    email: 'atuny0@sohu.com',
-    phone: '+63 791 675 8914',
-    username: 'atuny0',
-    password: '9uQFF1Lh',
-    birthDate: '2000-12-25',
-    image: 'https://robohash.org/Terry.png?set=set4',
-    bloodGroup: 'A-',
-    height: 189,
-    weight: 75.4,
-    eyeColor: 'Green',
-    hair: { color: 'Black', type: 'Strands' },
-    domain: 'slashdot.org',
-    ip: '117.29.86.254',
-    address: {
-      address: '1745 T Street Southeast',
-      city: 'Washington',
-      coordinates: { lat: 38.867033, lng: -76.979235 },
-      postalCode: '20020',
-      state: 'DC'
-    },
-    macAddress: '13:69:BA:56:A3:74',
-    university: 'Capitol University',
-    bank: {
-      cardExpire: '06/22',
-      cardNumber: '50380955204220685',
-      cardType: 'maestro',
-      currency: 'Peso',
-      iban: 'NO17 0695 2754 967'
-    },
-    company: {
-      address: {
-        address: '629 Debbie Drive',
-        city: 'Nashville',
-        coordinates: [Object],
-        postalCode: '37076',
-        state: 'TN'
-      },
-      department: 'Marketing',
-      name: "Blanda-O'Keefe",
-      title: 'Help Desk Operator'
-    },
-    ein: '20-9487066',
-    ssn: '661-64-2976',
-    userAgent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/12.0.702.0 Safari/534.24',
-    crypto: {
-      coin: 'Bitcoin',
-      wallet: '0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a',
-      network: 'Ethereum (ERC20)'
-    }
-}
 
-//для проверки
-const users: ResponseData = {
-    users: [ {
-        id: 1,
-        firstName: 'Terry',
-        lastName: 'Medhurst',
-        maidenName: 'Smitham',
-        age: 50,
-        gender: 'male',
-        email: 'atuny0@sohu.com',
-        phone: '+63 791 675 8914',
-        username: 'atuny0',
-        password: '9uQFF1Lh',
-        birthDate: '2000-12-25',
-        image: 'https://robohash.org/Terry.png?set=set4',
-        bloodGroup: 'A-',
-        height: 189,
-        weight: 75.4,
-        eyeColor: 'Green',
-        hair: { color: 'Black', type: 'Strands' },
-        domain: 'slashdot.org',
-        ip: '117.29.86.254',
-        address: {
-          address: '1745 T Street Southeast',
-          city: 'Washington',
-          coordinates: { lat: 38.867033, lng: -76.979235 },
-          postalCode: '20020',
-          state: 'DC'
-        },
-        macAddress: '13:69:BA:56:A3:74',
-        university: 'Capitol University',
-        bank: {
-          cardExpire: '06/22',
-          cardNumber: '50380955204220685',
-          cardType: 'maestro',
-          currency: 'Peso',
-          iban: 'NO17 0695 2754 967'
-        },
-        company: {
-          address: {
-            address: '629 Debbie Drive',
-            city: 'Nashville',
-            coordinates: [Object],
-            postalCode: '37076',
-            state: 'TN'
-          },
-          department: 'Marketing',
-          name: "Blanda-O'Keefe",
-          title: 'Help Desk Operator'
-        },
-        ein: '20-9487066',
-        ssn: '661-64-2976',
-        userAgent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/12.0.702.0 Safari/534.24',
-        crypto: {
-          coin: 'Bitcoin',
-          wallet: '0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a',
-          network: 'Ethereum (ERC20)'
-        }
-    }, {
-        id: 1,
-        firstName: 'Terry',
-        lastName: 'Medhurst',
-        maidenName: 'Smitham',
-        age: 50,
-        gender: 'male',
-        email: 'atuny0@sohu.com',
-        phone: '+63 791 675 8914',
-        username: 'atuny0',
-        password: '9uQFF1Lh',
-        birthDate: '2000-12-25',
-        image: 'https://robohash.org/Terry.png?set=set4',
-        bloodGroup: 'A-',
-        height: 189,
-        weight: 75.4,
-        eyeColor: 'Green',
-        hair: { color: 'Black', type: 'Strands' },
-        domain: 'slashdot.org',
-        ip: '117.29.86.254',
-        address: {
-          address: '1745 T Street Southeast',
-          city: 'Washington',
-          coordinates: { lat: 38.867033, lng: -76.979235 },
-          postalCode: '20020',
-          state: 'DC'
-        },
-        macAddress: '13:69:BA:56:A3:74',
-        university: 'Capitol University',
-        bank: {
-          cardExpire: '06/22',
-          cardNumber: '50380955204220685',
-          cardType: 'maestro',
-          currency: 'Peso',
-          iban: 'NO17 0695 2754 967'
-        },
-        company: {
-          address: {
-            address: '629 Debbie Drive',
-            city: 'Nashville',
-            coordinates: [Object],
-            postalCode: '37076',
-            state: 'TN'
-          },
-          department: 'Marketing',
-          name: "Blanda-O'Keefe",
-          title: 'Help Desk Operator'
-        },
-        ein: '20-9487066',
-        ssn: '661-64-2976',
-        userAgent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/12.0.702.0 Safari/534.24',
-        crypto: {
-          coin: 'Bitcoin',
-          wallet: '0xb9fc2fe63b2a6c003f1c324c3bfa53259162181a',
-          network: 'Ethereum (ERC20)'
-        }
-    }],
-    total: 100,
-  skip: 0,
-  limit: 30
-}
