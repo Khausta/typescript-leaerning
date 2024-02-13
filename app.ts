@@ -1,19 +1,24 @@
+// makeOrdinal, isFinite, isSafeNumber -> './index.d.ts'
+// var makeOrdinal = require('./makeOrdinal');
+// var isFinite = require('./isFinite')
+// var isSafeNumber = require('./isSafeNumber');
 
-const TEN:number = 10;
-const ONE_HUNDRED:number = 100;
-const ONE_THOUSAND:number = 1000;
-const ONE_MILLION:number = 1000000;
-const ONE_BILLION:number = 1000000000;           //         1.000.000.000 (9)
-const ONE_TRILLION:number = 1000000000000;       //     1.000.000.000.000 (12)
-const ONE_QUADRILLION:number = 1000000000000000; // 1.000.000.000.000.000 (15)
-const MAX:number = 9007199254740992;             // 9.007.199.254.740.992 (15)
 
-const LESS_THAN_TWENTY: readonly string[] = [
+var TEN: number = 10;
+var ONE_HUNDRED: number = 100;
+var ONE_THOUSAND: number = 1000;
+var ONE_MILLION: number = 1000000;
+var ONE_BILLION: number = 1000000000;           //         1.000.000.000 (9)
+var ONE_TRILLION: number = 1000000000000;       //     1.000.000.000.000 (12)
+var ONE_QUADRILLION: number = 1000000000000000; // 1.000.000.000.000.000 (15)
+var MAX: number = 9007199254740992;             // 9.007.199.254.740.992 (15)
+
+var LESS_THAN_TWENTY: readonly string[] = [
     'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
     'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
 ];
 
-const TENTHS_LESS_THAN_HUNDRED: readonly string[] = [
+var TENTHS_LESS_THAN_HUNDRED: readonly string[] = [
     'zero', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
 ];
 
@@ -25,28 +30,28 @@ const TENTHS_LESS_THAN_HUNDRED: readonly string[] = [
  * @param {boolean} [asOrdinal] - Deprecated, use toWordsOrdinal() instead!
  * @returns {string}
  */
-function toWords(number: number): string {
-    let words: string;
-    const num: number = parseInt(number.toString(), 10);
+function toWords(number: number, asOrdinal: boolean): string {
+    var words: string;
+    var num: number = parseInt(number.toString(), 10);
 
     if (!isFinite(num)) {
         throw new TypeError(
             'Not a finite number: ' + number + ' (' + typeof number + ')'
         );
     }
-    if (!Number.isSafeInteger(num)) {
+    if (!isSafeNumber(num)) {
         throw new RangeError(
             'Input is not a safe number, it’s either too large or too small.'
         );
     }
-    return words = generateWords(num);
+    words = generateWords(num);
+    return asOrdinal ? makeOrdinal(words) : words;
 }
 
 
 function generateWords(number: number, ...args: string[]) {
-    let remainder: number = 0;
-    let word: string = '';
-    let words: string[] = args ? args : [];
+    var remainder: number = 0, word: string = '',
+        words: string[] = args ? args : [];
 
     // We’re done
     if (number === 0) {
