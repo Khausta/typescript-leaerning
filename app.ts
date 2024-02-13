@@ -4,21 +4,21 @@
 // var isSafeNumber = require('./isSafeNumber');
 
 
-var TEN: number = 10;
-var ONE_HUNDRED: number = 100;
-var ONE_THOUSAND: number = 1000;
-var ONE_MILLION: number = 1000000;
-var ONE_BILLION: number = 1000000000;           //         1.000.000.000 (9)
-var ONE_TRILLION: number = 1000000000000;       //     1.000.000.000.000 (12)
-var ONE_QUADRILLION: number = 1000000000000000; // 1.000.000.000.000.000 (15)
-var MAX: number = 9007199254740992;             // 9.007.199.254.740.992 (15)
+var TEN: 10 = 10;
+var ONE_HUNDRED: 100 = 100;
+var ONE_THOUSAND: 1000 = 1000;
+var ONE_MILLION: 1000000 = 1000000;
+var ONE_BILLION: 1000000000 = 1000000000;           //         1.000.000.000 (9)
+var ONE_TRILLION: 1000000000000 = 1000000000000;       //     1.000.000.000.000 (12)
+var ONE_QUADRILLION: 1000000000000000 = 1000000000000000; // 1.000.000.000.000.000 (15)
+var MAX: 9007199254740992 = 9007199254740992;             // 9.007.199.254.740.992 (15)
 
-var LESS_THAN_TWENTY: readonly string[] = [
+var LESS_THAN_TWENTY: string[] = [
     'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
     'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
 ];
 
-var TENTHS_LESS_THAN_HUNDRED: readonly string[] = [
+var TENTHS_LESS_THAN_HUNDRED: string[] = [
     'zero', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
 ];
 
