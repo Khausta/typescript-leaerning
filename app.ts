@@ -1,30 +1,37 @@
-//classes
-//creation classes
+//Methods
+enum PaymentStatus {
+  Holded,
+  Precessed,
+  Reversed
+}
+class Payment {
+  id: number;
+  status: PaymentStatus;
+  createAt: Date;
+  updatedAt: Date;
 
-class User {
-  name: string;
-  age: number;
 
-  constructor();
-  constructor(name: string);
-  constructor(age: number);
-  constructor(name: string, age: number);
-  constructor (nameOrAge?: string | number, age?: number) {
-    if(typeof nameOrAge === "string" ) {
-      this.name = nameOrAge
-    } else if (typeof nameOrAge === "number"){
-      this.age = nameOrAge
+  constructor(id: number) {
+    this.id = id;
+    this.status = PaymentStatus.Holded;
+    this.createAt = new Date();
+  }
+
+  getPatmentLifeTime(): number {
+    return new Date().getTime() - this.createAt.getTime();  
+  }
+
+  unholdPayment() {
+    if (this.status == PaymentStatus.Precessed) {
+      throw new Error('This payment can not be unholded')
     }
-    
-    if(typeof age === "number") {
-      this.age = age
-    }
-  } 
+    this.status = PaymentStatus.Reversed;
+    this.updatedAt = new Date(); 
+  }
 }
 
-const user = new User('Vasy');
-const user2 = new User(33);
-const user3 = new User('VAsa', 33);
-
-
-
+const payment = new Payment(1);
+payment.unholdPayment();
+console.log(payment);
+const time = payment.getPatmentLifeTime();
+console.log(time);
