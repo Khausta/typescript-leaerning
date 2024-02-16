@@ -2,24 +2,29 @@
 //creation classes
 
 class User {
-  name: string
+  name: string;
+  age: number;
 
-  constructor (name) {
-    this.name = name
-  }
+  constructor();
+  constructor(name: string);
+  constructor(age: number);
+  constructor(name: string, age: number);
+  constructor (nameOrAge?: string | number, age?: number) {
+    if(typeof nameOrAge === "string" ) {
+      this.name = nameOrAge
+    } else if (typeof nameOrAge === "number"){
+      this.age = nameOrAge
+    }
+    
+    if(typeof age === "number") {
+      this.age = age
+    }
+  } 
 }
 
 const user = new User('Vasy');
-console.log(user);
-user.name = 'Olga';
-console.log(user);
-const user1 = new User('Lala');
-console.log(user1);
-
-class Admin {
-  // role!: number //можно использовать оператор ! или отключить в конфиге strictPropertyInitialization (поставить false)
-  role: number
-}
+const user2 = new User(33);
+const user3 = new User('VAsa', 33);
 
 
 
