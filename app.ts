@@ -1,19 +1,24 @@
-// Type Guard
-interface User {
-    name: string;
+//classes
+//creation classes
+
+class User {
+  name: string
+
+  constructor (name) {
+    this.name = name
+  }
 }
 
-//допустим с сервера приходит объект и мы не хнаем что там будет
-const a = {};
+const user = new User('Vasy');
+console.log(user);
+user.name = 'Olga';
+console.log(user);
+const user1 = new User('Lala');
+console.log(user1);
 
-assertUser(a);
-a.name = 'Vasya';
-
-function assertUser(obj: unknown): asserts obj is User {
-    if (typeof obj === 'object' && !!obj && 'name' in obj) {
-        return;
-    } 
-    throw new Error('Не польхователь');
+class Admin {
+  // role!: number //можно использовать оператор ! или отключить в конфиге strictPropertyInitialization (поставить false)
+  role: number
 }
 
 

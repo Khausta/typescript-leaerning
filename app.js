@@ -1,11 +1,16 @@
 "use strict";
-//допустим с сервера приходит объект и мы не хнаем что там будет
-const a = {};
-assertUser(a);
-a.name = 'Vasya';
-function assertUser(obj) {
-    if (typeof obj === 'object' && !!obj && 'name' in obj) {
-        return;
+//classes
+//creation classes
+class User {
+    constructor(name) {
+        this.name = name;
     }
-    throw new Error('Не польхователь');
+}
+const user = new User('Vasy');
+console.log(user);
+user.name = 'Olga';
+console.log(user);
+const user1 = new User('Lala');
+console.log(user1);
+class Admin {
 }
