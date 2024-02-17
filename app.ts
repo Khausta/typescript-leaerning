@@ -1,58 +1,42 @@
-class User {
-  name: string;
+class Vehicle {
+  public make: string //пуцбличное свойство, в некоторых кодстайлах может бвть требованпи явного указания (например --- public make: string)
+  private damages: string[]
+  private _model: string;
+  protected run: number; //недоступно для использования извне, но доступно для наследования
+  #price: number;
 
-  constructor(name: string) {
-    this.name = name;
+  addDamage(damage: string) {
+    this.damages.push(damage);
+  }
+
+  set model(m: string) {
+    this._model = m;
+    this.#price = 100;
+  }
+
+  get model() {
+    return this._model;
+  }
+
+  isPriceEqual(v: Vehicle) {
+    return this.#price === v.#price; //!!! ттак мы можем обратиться к приватному свойству, если передали аргументом
   }
 }
 
-//пример наследования
-class Users extends Array<User> { //здесь мы смешали бизнес-единицу Users и некоторые утилитарные типы(слудебные встроенные типв как массивы) 
-  searchByName(name: string) {
-    return this.filter(u => u.name === name);
+
+class EuroTrack extends Vehicle {
+  setDamage() {
+    // не доступны свойства damages и _model тк приватные
   }
 
-  override toString(): string { //если нет перезаписи, то результатом такого мтода будет [object Object]
-    return this.map(u => u.name).join(', ');
+  setRun(km: number) {
+    this.run = km / 0.62;
+    // this.damage --- Property 'damage' does not exist on type 'EuroTrack' 
   }
+
+  // setPrice() {
+  //   this.#price   ----  Property '#price' is not accessible outside class 'Vehicle' because it has a private identifier.ts(18013)
+  // }
 }
-
-const users = new Users();
-users.push(new User("Vasy"));
-users.push(new User("Oleg"));
-console.log(users.toString()); //[object Object] -- в таком случае мы можем для таких методов override ьетоды сделать
-
-
-//пример композиции
-//чтобы не смешивать утилитарные методы с бизнес единицами
-//в композиции должно быть несколько элементов
-class UserList {
-  users: User[]
-
-  push(u: User) {
-    this.users.push(u);
-  }
-}
-
-//пример с изменение предметной области
-class Payment {
-  date: Date;
-}
-
-//неверно, так как идет зависимость UserWithPayment от класса Payment 
-// и любое добавление кода в UserWithPayment будет услоднять код
-class UserWithPayment extends Payment {
-  name: string
-}
-
-//верный вариант с композицией
-//это упростит код и уменьшит связанность, так как в предудцщем примере связанность уходит в дургой домэйн(DDD)
-class UserWithPayment2 {
-  user: User;
-  payment: Payment;
-
-  constructor(user: User, payment: Payment) {
-    this.user = user;
-    this.payment = payment;
-  }
-}
+new Vehicle().make = 'm';
+// new Vehicle()
