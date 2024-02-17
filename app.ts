@@ -34,3 +34,28 @@ class User implements IPayable, IDeletable {
     ///
   }
 }
+
+
+interface ISay {
+  sayHi(...args): string;
+}
+
+interface INumber {
+  sayNumber(num): number;
+}
+
+class Dictionary implements ISay, INumber  {
+  sayNumber(num: any): number {
+    console.log(num);
+    return num;
+  }
+  sayHi(...args: any[]): string {
+    console.log(...args);
+    return "Hi";
+  }
+}
+
+const dic = new Dictionary();
+dic.sayNumber(2);
+dic.sayHi('dkjfl', 'dsf');   
+

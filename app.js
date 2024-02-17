@@ -28,3 +28,16 @@ class User {
         ///
     }
 }
+class Dictionary {
+    sayNumber(num) {
+        console.log(num);
+        return num;
+    }
+    sayHi(...args) {
+        console.log(...args);
+        return "Hi";
+    }
+}
+const dic = new Dictionary();
+dic.sayNumber(2);
+dic.sayHi('dkjfl', 'dsf');
