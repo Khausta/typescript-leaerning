@@ -1,61 +1,42 @@
-//implements
+//Extends
 
-interface ILog {
-  // log(...args): void;
-  log: (...args) => void; //возможны два варианта
-  error(...args): void;
-}
+type PaymentStatus = "new" | "paid";
 
-class Logger implements ILog {
-  log(...args: any[]) {
-    console.log(...args)
-  }
-  async error(...args: any[]): Promise<void> {
-    //кинуть что-то во внешнюю систему
-    console.log(...args)
-  }
-}
+class Payment {
+  id: number;
+  status: PaymentStatus = "new"
 
-interface IPayable {
-  pay(paymentId: number): void;
-  price?: number;
-}
-
-interface IDeletable {
-  delete(): void;
-}
-
-class User implements IPayable, IDeletable {
-  delete(): void {
-    throw new Error('Method not implemented.');
+  constructor(id: number) {
+    this.id = id
   }
 
-  pay(paymentId: number | string): void {
-    ///
+  pay() {
+    this.status = "paid";
   }
 }
 
+class PersistedPayment extends Payment {
+  dataBaseId: number;
+  paidAt: Date;
 
-interface ISay {
-  sayHi(...args): string;
-}
-
-interface INumber {
-  sayNumber(num): number;
-}
-
-class Dictionary implements ISay, INumber  {
-  sayNumber(num: any): number {
-    console.log(num);
-    return num;
+  constructor() {
+    const id = Math.random();
+    super(id); //super обязателен если мы переопределяем коструктор
   }
-  sayHi(...args: any[]): string {
-    console.log(...args);
-    return "Hi";
+
+  save() {
+    //сохраняет в базу
   }
-}
 
-const dic = new Dictionary();
-dic.sayNumber(2);
-dic.sayHi('dkjfl', 'dsf');   
+  override pay(date?: Date) { //шдентификатор override показывает, что мы перезаписываем метод
+    // this.status = "paid";
+    super.pay();
+    if(date) {
+      this.paidAt = date;
+    }
+  }
+  
+} 
 
+
+// new PersistedPayment().pay();
