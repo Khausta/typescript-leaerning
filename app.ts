@@ -1,28 +1,29 @@
-class User {
-  skills: string[];
+//getter and setter
 
-  addSkill(skill: string): void;
-  addSkill(skills: string[]): void;
-  addSkill(skillOrSkills: string | string[]): void {
-    if (typeof skillOrSkills === "string") {
-      this.skills ? this.skills.push(skillOrSkills) : this.skills = [skillOrSkills]
-    } else if (Array.isArray(skillOrSkills)) {
-      this.skills ? this.skills = this.skills.concat(skillOrSkills) : this.skills = skillOrSkills
-    } 
+class User {
+  _login: string;
+  password: string;
+  createdAt: Date;
+
+  set login(l: string) {
+    this._login = 'user-' + l;
+    this.createdAt = new Date(); //это назывется side effect
+  }
+  //если нет setter то свойство readonly
+
+  get login() {
+    return 'not-login';
+  }
+  //с get и set нельзя использовать асинхронный код,
+  // но при работе с паролями, например, использовать асинхроннве методы можно
+  async setPassord() {
+    //...code 
+    //   await...
   }
 }
 
 const user = new User();
+user.login = 'myLogin';
 console.log(user);
-user.addSkill('dev');
-console.log(user);
-user.addSkill(['devOps', 'design']);
-console.log(user.skills);
-
-function run(distance: number): number;
-function run(distance: string): string;
-function run(distance: number | string): string | number {
-  return typeof distance === "number" ? 1 : "bombaleylo!"
-}
-
+console.log(user.login);
 
