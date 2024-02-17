@@ -1,43 +1,99 @@
 "use strict";
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var _Vehicle_price;
-class Vehicle {
+// Необходимо сделать корзину (Cart) на сайте,
+// которая имееет список продуктов (Product), добавленных в корзину
+// и переметры доставки (Delivery). Для Cart реализовать методы:
+// Добавить продукт в корзину
+// Удалить продукт из корзины по ID
+// Посчитать стоимость товаров в корзине
+// Задать доставку
+// Checkout - вернуть что всё ок, если есть продукты и параметры доставки
+// Product: id, название и цена
+// Delivery: может быть как до дома (дата и адрес) или до пункта выдачи (дата = Сегодня и Id магазина)
+class Product {
+    constructor(id, title, price) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+    }
+}
+class Delivery {
+    constructor(date) {
+        this.date = date;
+    }
+}
+class HomeDelivery extends Delivery {
+    constructor(date, address) {
+        super(date);
+        this.address = address;
+    }
+}
+class ShopDelivery extends Delivery {
+    constructor(date, marketId) {
+        super(new Date());
+        this.marketId = marketId;
+    }
+}
+class Cart {
     constructor() {
-        _Vehicle_price.set(this, void 0);
+        this.products = [];
     }
-    addDamage(damage) {
-        this.damages.push(damage);
+    addProduct(product) {
+        this.products.push(product);
     }
-    set model(m) {
-        this._model = m;
-        __classPrivateFieldSet(this, _Vehicle_price, 100, "f");
+    deleteProduct(productId) {
+        this.products = this.products.filter((product) => product.id !== productId);
     }
-    get model() {
-        return this._model;
+    getSum() {
+        if (this.products.length) {
+            return this.products
+                .map((p) => p.price)
+                .reduce((currentSum, currentPrice) => currentSum + currentPrice);
+        }
     }
-    isPriceEqual(v) {
-        return __classPrivateFieldGet(this, _Vehicle_price, "f") === __classPrivateFieldGet(v, _Vehicle_price, "f"); //!!! ттак мы можем обратиться к приватному свойству, если передали аргументом
+    setDelivery(delivery) {
+        this.delivery = delivery;
+    }
+    checkout() {
+        if (this.products.length === 0) {
+            throw new Error("Нет товара в корзине");
+        }
+        if (!this.delivery) {
+            throw new Error("Не указан способ доставки");
+        }
+        return { success: true };
     }
 }
-_Vehicle_price = new WeakMap();
-class EuroTrack extends Vehicle {
-    setDamage() {
-        // не доступны свойства damages и _model тк приватные
-    }
-    setRun(km) {
-        this.run = km / 0.62;
-        // this.damage --- Property 'damage' does not exist on type 'EuroTrack' 
-    }
-}
-new Vehicle().make = 'm';
-// new Vehicle()
+const cart = new Cart();
+cart.addProduct(new Product(1, 'Apple', 10));
+cart.addProduct(new Product(2, 'Chocolad', 20));
+cart.addProduct(new Product(3, 'Cake', 30));
+cart.deleteProduct(1);
+cart.deleteProduct(2);
+cart.deleteProduct(3);
+cart.setDelivery(new HomeDelivery(new Date(), 'Lobnya'));
+console.log(cart.getSum());
+console.log(cart.checkout());
+// class Cart {
+//   _products: Product[] = [];
+//   get products() {
+//     return this._products;
+//   }
+//   addProduct(name: string, price: number, id: number) { 
+//     this._products.push(new Product(name, price, id));
+//   }
+//   deleteProduct(name: string) {
+//     this._products = this._products.filter(p => p.name !== name);
+//   }
+//   get getTotalPrice() {
+//     let sum: number = 0;
+//     this._products.map(el => sum += el.price)
+//     return sum;
+//   }
+// }
+// const cart = new Cart();
+// cart.addProduct('Apple', 20, 1);
+// cart.addProduct('Orange', 21, 2);
+// cart.addProduct('Bread', 10, 3);
+// // cart.deleteProduct('Apple');
+// console.log(cart.getTotalPrice);
+// console.log(cart.products);
