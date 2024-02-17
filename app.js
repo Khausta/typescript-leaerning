@@ -1,28 +1,21 @@
 "use strict";
-//Extends
-class Payment {
-    constructor(id) {
-        this.status = "new";
-        this.id = id;
-    }
-    pay() {
-        this.status = "paid";
-    }
-}
-class PersistedPayment extends Payment {
+class User {
     constructor() {
-        const id = Math.random();
-        super(id); //super обязателен если мы переопределяем коструктор
-    }
-    save() {
-        //сохраняет в базу
-    }
-    pay(date) {
-        // this.status = "paid";
-        super.pay();
-        if (date) {
-            this.paidAt = date;
-        }
+        this.name = "user";
+        console.log(this.name);
     }
 }
-// new PersistedPayment().pay();
+class Admin extends User {
+    constructor() {
+        super();
+        this.name = "admin";
+        console.log(this.name);
+    }
+}
+new Admin(); //user admin
+class HttpError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.code = code !== null && code !== void 0 ? code : 500;
+    }
+}

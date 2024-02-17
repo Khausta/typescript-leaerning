@@ -1,42 +1,28 @@
-//Extends
 
-type PaymentStatus = "new" | "paid";
+class User {
+  name: string = "user";
 
-class Payment {
-  id: number;
-  status: PaymentStatus = "new"
-
-  constructor(id: number) {
-    this.id = id
-  }
-
-  pay() {
-    this.status = "paid";
+  constructor() {
+    console.log(this.name);
   }
 }
 
-class PersistedPayment extends Payment {
-  dataBaseId: number;
-  paidAt: Date;
+class Admin extends User {
+  name : string = "admin";
 
   constructor() {
-    const id = Math.random();
-    super(id); //super обязателен если мы переопределяем коструктор
-  }
-
-  save() {
-    //сохраняет в базу
-  }
-
-  override pay(date?: Date) { //шдентификатор override показывает, что мы перезаписываем метод
-    // this.status = "paid";
-    super.pay();
-    if(date) {
-      this.paidAt = date;
-    }
+    super();
+    console.log(this.name);
   }
   
-} 
+}
 
+new Admin(); //user admin
 
-// new PersistedPayment().pay();
+class HttpError extends Error {
+  code: number;
+  constructor(message: string, code?: number) {
+    super(message);
+    this.code = code ?? 500
+  }
+}
