@@ -1,37 +1,28 @@
-//Methods
-enum PaymentStatus {
-  Holded,
-  Precessed,
-  Reversed
-}
-class Payment {
-  id: number;
-  status: PaymentStatus;
-  createAt: Date;
-  updatedAt: Date;
+class User {
+  skills: string[];
 
-
-  constructor(id: number) {
-    this.id = id;
-    this.status = PaymentStatus.Holded;
-    this.createAt = new Date();
-  }
-
-  getPatmentLifeTime(): number {
-    return new Date().getTime() - this.createAt.getTime();  
-  }
-
-  unholdPayment() {
-    if (this.status == PaymentStatus.Precessed) {
-      throw new Error('This payment can not be unholded')
-    }
-    this.status = PaymentStatus.Reversed;
-    this.updatedAt = new Date(); 
+  addSkill(skill: string): void;
+  addSkill(skills: string[]): void;
+  addSkill(skillOrSkills: string | string[]): void {
+    if (typeof skillOrSkills === "string") {
+      this.skills ? this.skills.push(skillOrSkills) : this.skills = [skillOrSkills]
+    } else if (Array.isArray(skillOrSkills)) {
+      this.skills ? this.skills = this.skills.concat(skillOrSkills) : this.skills = skillOrSkills
+    } 
   }
 }
 
-const payment = new Payment(1);
-payment.unholdPayment();
-console.log(payment);
-const time = payment.getPatmentLifeTime();
-console.log(time);
+const user = new User();
+console.log(user);
+user.addSkill('dev');
+console.log(user);
+user.addSkill(['devOps', 'design']);
+console.log(user.skills);
+
+function run(distance: number): number;
+function run(distance: string): string;
+function run(distance: number | string): string | number {
+  return typeof distance === "number" ? 1 : "bombaleylo!"
+}
+
+
