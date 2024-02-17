@@ -1,29 +1,36 @@
-//getter and setter
+//implements
 
-class User {
-  _login: string;
-  password: string;
-  createdAt: Date;
+interface ILog {
+  // log(...args): void;
+  log: (...args) => void; //возможны два варианта
+  error(...args): void;
+}
 
-  set login(l: string) {
-    this._login = 'user-' + l;
-    this.createdAt = new Date(); //это назывется side effect
+class Logger implements ILog {
+  log(...args: any[]) {
+    console.log(...args)
   }
-  //если нет setter то свойство readonly
-
-  get login() {
-    return 'not-login';
-  }
-  //с get и set нельзя использовать асинхронный код,
-  // но при работе с паролями, например, использовать асинхроннве методы можно
-  async setPassord() {
-    //...code 
-    //   await...
+  async error(...args: any[]): Promise<void> {
+    //кинуть что-то во внешнюю систему
+    console.log(...args)
   }
 }
 
-const user = new User();
-user.login = 'myLogin';
-console.log(user);
-console.log(user.login);
+interface IPayable {
+  pay(paymentId: number): void;
+  price?: number;
+}
 
+interface IDeletable {
+  delete(): void;
+}
+
+class User implements IPayable, IDeletable {
+  delete(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  pay(paymentId: number | string): void {
+    ///
+  }
+}
