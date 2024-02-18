@@ -1,60 +1,24 @@
 "use strict";
-//контекст, this
-//примеры где с окнтекстом нужно рабоать аккуратно
-class Payment {
-    constructor() {
-        this.date = new Date();
+class UserBuilder {
+    setName(name) {
+        // setName(name: string): UserBuilder {  //так как возвращает сам себя класс, то UserBilder как тип может привести к коалихзиям
+        this.name = name;
+        return this;
     }
-    getDate() {
-        return this.date;
-    }
+    isAdmin() {
+        return this instanceof AdminBuilder;
+    } //хорошо применить, елси нужно проверить является ли обьект инстансом определенного класса
 }
-const payment = new Payment();
-// console.log(payment.getDate());//2024-02-18T12:09:25.940Z
-//пока все ок
-const user = {
-    id: 1,
-    paymentDate: payment.getDate
-};
-// console.log(user.paymentDate()); //undefined, тк мы потеряля контекст
-// поэтому используй bind чтобы привязать контекст
-const user2 = {
-    id: 1,
-    paymentDate: payment.getDate.bind(payment)
-};
-// console.log(user2.paymentDate());//2024-02-18T12:09:25.940Z -- все ок
-// но в TypeScript используй this как аргумент в методе класса
-class Payment2 {
-    constructor() {
-        this.date = new Date();
-        this.getDateArrow = () => {
-            return this.date;
-        };
-    }
-    getDate() {
-        return this.date;
-    }
+class AdminBuilder extends UserBuilder {
 }
-const payment2 = new Payment2();
-const user3 = {
-    id: 1,
-    paymentDate: payment2.getDate.bind(payment2),
-    paymentDateArrow: payment2.getDateArrow
-};
-// console.log(user3.paymentDate()); //все ок
-// console.log(user3.paymentDateArrow()); //все ок
-// СО СТРЕЛОЧНЫМИ ФУНКЦИЯМИ ПРИМЕР не всегда срабатывает
-class PeymentPersistent extends Payment2 {
-    save() {
-        return super.getDate();
-    }
+const res = new UserBuilder().setName('Vasya'); //здесь this это UserBuilder
+const res2 = new AdminBuilder().setName("Olga"); //здесь this это AdminBuilder
+let user = new UserBuilder(); //юнион тип, поэтому при раюоте с кодом нуэно будет примениить сужение типов - Разделить
+//поэтому используем Type Guard
+if (user.isAdmin()) {
+    console.log(user); //если в AdminBuilder убрать свойство roles, то здесь user определится как UserBuilder | AdminBuilder
 }
-console.log(new PeymentPersistent().save()); //все работает
-// теперь заменим  return super.getDate() на arrow
-class PeymentPersistent2 extends Payment2 {
-    save() {
-        // return super.getDateArrow();   //TypeError: (intermediate value).getDateArrow is not a function
-        return this.getDateArrow(); //если super заменить на this
-    }
+else {
+    console.log(user); //а здесь как never, тк в эту ветку мы не попадем никогда
+    // ======= все потому что AdminBuilder и UserBuilder в данном случае являются одинаковыми
 }
-console.log(new PeymentPersistent2().save());
