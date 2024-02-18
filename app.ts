@@ -1,23 +1,31 @@
-// Абстрактные классы
-abstract class Controller {
-    abstract handle(req: any): void;
+// Необходимо реализовать абстрактный класс Logger с 2-мя 
+// методами абстрактным - log(message): void и printDate - 
+// выводящий в log дату.
+// К нему необходимо сделать реальный класс, 
+// который бы имел метод: logWithDate,выводящий 
+// сначала дату, а потом заданное сообщение
 
-    handleWithLogs(req: any) {
-      console.log('start');
-      this.handle(req);
-      console.log("end");
-    }
+abstract class Logger {
+  abstract log(message: string): void;
+
+  printDate(date: Date): void {
+   this.log(date.toString());
+  }
+
+ 
 }
 
-// const c = new Controller();//Так не сраюлотает
-// абстрактные классы мы можем отнаследовать
-class UserCOntroller extends Controller {
-  handle(req: any): void {
-    console.log(req);
+class RealLogger extends Logger {
+  log(message: string): void {
+    console.log(message);
+  }
+
+  logWithDate(message: string): void {
+    this.log(message);
+    this.printDate(new Date());
   }
 }
 
-const c = new UserCOntroller();
-c.handle("Request");//Request
-c.handleWithLogs("Request"); //start Request end
-
+const log = new RealLogger();
+log.logWithDate("message!");
+  
