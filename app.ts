@@ -1,30 +1,23 @@
-class UserBuilder {
-  name: string;
+// Абстрактные классы
+abstract class Controller {
+    abstract handle(req: any): void;
 
-  setName(name: string): this {  //так как возвращает сам себя класс, то UserBilder как тип может привести к коалихзиям
-  // setName(name: string): UserBuilder {  //так как возвращает сам себя класс, то UserBilder как тип может привести к коалихзиям
-    this.name = name;
-    return this;
+    handleWithLogs(req: any) {
+      console.log('start');
+      this.handle(req);
+      console.log("end");
+    }
+}
+
+// const c = new Controller();//Так не сраюлотает
+// абстрактные классы мы можем отнаследовать
+class UserCOntroller extends Controller {
+  handle(req: any): void {
+    console.log(req);
   }
-
-  isAdmin(): this is AdminBuilder { //Type Guard
-    return this instanceof AdminBuilder;
-  } //хорошо применить, елси нужно проверить является ли обьект инстансом определенного класса
 }
 
+const c = new UserCOntroller();
+c.handle("Request");//Request
+c.handleWithLogs("Request"); //start Request end
 
-class AdminBuilder extends UserBuilder {
-  // roles: string[]; 
-}
-const res = new UserBuilder().setName('Vasya'); //здесь this это UserBuilder
-const res2 = new AdminBuilder().setName("Olga");//здесь this это AdminBuilder
-
-let user: UserBuilder | AdminBuilder = new UserBuilder(); //юнион тип, поэтому при раюоте с кодом нуэно будет примениить сужение типов - Разделить
-//поэтому используем Type Guard
-
-if (user.isAdmin()) {
-  console.log(user); //если в AdminBuilder убрать свойство roles, то здесь user определится как UserBuilder | AdminBuilder
-} else {
-  console.log(user); //а здесь как never, тк в эту ветку мы не попадем никогда
-  // ======= все потому что AdminBuilder и UserBuilder в данном случае являются одинаковыми
-}
