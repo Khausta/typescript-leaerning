@@ -21,3 +21,14 @@ const check = {
     drive: true,
     kpp: true
 };
+//пример функции generic
+function logMiddleware(data) {
+    console.log(data);
+    return data;
+}
+const res = logMiddleware(2);
+function getSplitedHalf(data) {
+    const l = data.length / 2;
+    return data.splice(0, l);
+}
+getSplitedHalf([1, 3, 5]);
