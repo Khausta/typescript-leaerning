@@ -32,21 +32,16 @@ function getSplitedHalf(data) {
     return data.splice(0, l);
 }
 getSplitedHalf([1, 3, 5]);
-function toString(data) {
-    switch (typeof data) {
-        case 'string':
-            return data;
-        case 'number':
-        case 'bigint':
-        case 'function':
-        case 'boolean':
-        case 'symbol':
-            return data.toString();
-        case 'object':
-            return JSON.stringify(data);
-        default:
-            return undefined;
+const split = getSplitedHalf; //использование в типах
+const logLine = {
+    timeStamp: new Date(),
+    data: {
+        a: 1
     }
-}
-console.log(toString([1, 2, 3]));
-// console.log(toString<number>('dsf')); //<--- подсвечивает ошибку
+};
+const logLine2 = {
+    timeStamp: new Date(),
+    data: {
+        a: 1
+    }
+};

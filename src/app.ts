@@ -29,24 +29,33 @@ function getSplitedHalf<T>(data: Array<T>): Array<T> {
 
 getSplitedHalf<number>([1, 3, 5]);
 
-function toString<T>(data: T): string | undefined  {
-  switch(typeof data) {
-    case 'string':
-      return data;
-    case 'number': 
-    case 'bigint':
-    case 'function':
-    case 'boolean':
-    case 'symbol':
-      return data.toString();
-    case 'object':
-      return JSON.stringify(data);
-    default:
-      return undefined;
+const split: <T>(data: Array<T>) => Array<T> = getSplitedHalf; //использование в типах
+
+
+//испольхование интерфейса вмесете с generic
+interface ILogLine<T> {
+  timeStamp: Date,
+  data: T
+}
+const logLine: ILogLine< {a: number} > = {
+  timeStamp: new Date(),
+  data: {
+    a: 1
   }
 }
 
-console.log(toString([1, 2, 3]));
-// console.log(toString<number>('dsf')); //<--- подсвечивает ошибку
+
+//испольхование тайпов вмесете с generic
+type LogLineType<T> = {
+  timeStamp: Date,
+  data: T
+}
+const logLine2: LogLineType< {a: number} > = {
+  timeStamp: new Date(),
+  data: {
+    a: 1
+  }
+}
+
 
 
