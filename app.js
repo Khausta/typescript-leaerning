@@ -30,6 +30,7 @@ function getData(url, {}) {
             const res = yield fetch(url);
             const data = yield res.json();
             console.log(data);
+            return data;
         }
         catch (error) {
             if (error instanceof Error) {
@@ -38,3 +39,5 @@ function getData(url, {}) {
         }
     });
 }
+const test = getData('sdkhg;zs', { method: 'GET' });
+console.log(test);

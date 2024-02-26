@@ -91,17 +91,18 @@ interface ResponseData {
 }
 
 
-async function getData(url: string, {}): Promise<void> {
+async function getData(url: string, {}): Promise<ResponseData | undefined> {
   try {
     const res: Response = await fetch(url);
-    const data: User = await res.json();
-    console.log(data);
+    const data: ResponseData = await res.json();
+    return data;
   } catch(error) {
     if (error instanceof Error) {
       console.error('Error: ' + error.message);
     }
   }
 }
+
 
 
 
